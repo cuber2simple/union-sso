@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: union-sso
+  servlet:
+    multipart:
+      max-request-size: 120MB
+      max-file-size: 120MB
+  redis:
+    host: 139.196.86.188
+    password: AdeTTT32312ttedsdcaHUHU
+    port: 3333
+    lettuce:
+          pool:
+            max-active: 3
+            max-wait: 300ms
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/sso?useUnicode=true&amp;characterEncoding=UTF-8
+    password: sso
+    username: sso
+    driver-class-name: org.postgresql.Driver
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+server:
+  port: 8080
+  servlet:
+    context-path: /sso
+dubbo:
+  basic:
+    version: 1.0

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cuber.sso.mapper.TrUserRoleMapper">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.TrUserRole">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId"/>
+        <result column="CONNECT_TYPE" jdbcType="VARCHAR" property="connectType"/>
+        <result column="SBJ_USER_ID" jdbcType="VARCHAR" property="sbjUserId"/>
+        <result column="CONNECT_DATETIME" jdbcType="TIMESTAMP" property="connectDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, ROLE_ID, CONNECT_TYPE, SBJ_USER_ID, CONNECT_DATETIME
+    </sql>
+
+    <insert id="create" parameterType="org.cuber.sso.dto.TrUserRole">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select nextval('SEQ_TR_USER_ROLE_ID')
+        </selectKey>
+        insert into TR_USER_ROLE (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        #{id, jdbcType = VARCHAR}, #{roleId, jdbcType = VARCHAR}, #{connectType, jdbcType = VARCHAR},
+        #{sbjUserId, jdbcType = VARCHAR},current_timestamp
+        )
+    </insert>
+
+    <select id="retrieveById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TR_USER_ROLE
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </select>
+
+    <select id="retrievePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TR_USER_ROLE
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="roleId != null">
+                and ROLE_ID = #{roleId,jdbcType=VARCHAR}
+            </if>
+            <if test="connectType != null">
+                and CONNECT_TYPE = #{connectType,jdbcType=VARCHAR}
+            </if>
+            <if test="sbjUserId != null">
+                and SBJ_USER_ID = #{sbjUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="connectDatetime != null">
+                and CONNECT_DATETIME = #{connectDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.TrUserRole">
+        update TR_USER_ROLE
+        <set>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null">
+                ROLE_ID = #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="connectType != null">
+                CONNECT_TYPE = #{connectType,jdbcType=VARCHAR},
+            </if>
+            <if test="sbjUserId != null">
+                SBJ_USER_ID = #{sbjUserId,jdbcType=VARCHAR},
+            </if>
+            CONNECT_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="org.cuber.sso.dto.TrUserRole">
+        update TR_USER_ROLE
+        <set>
+            ID = #{id,jdbcType=VARCHAR},
+            ROLE_ID = #{roleId,jdbcType=VARCHAR},
+            CONNECT_TYPE = #{connectType,jdbcType=VARCHAR},
+            SBJ_USER_ID = #{sbjUserId,jdbcType=VARCHAR},
+            CONNECT_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <select id="retrieveAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TR_USER_ROLE
+    </select>
+
+    <delete id="deleteById">
+        delete from TR_USER_ROLE
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </delete>
+</mapper>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cuber.sso.mapper.RoleEntityMapper">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.RoleEntity">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
+        <result column="ROLE_DESC" jdbcType="VARCHAR" property="roleDesc"/>
+        <result column="ROLE_TYPE" jdbcType="VARCHAR" property="roleType"/>
+        <result column="DOMAIN" jdbcType="VARCHAR" property="domain"/>
+        <result column="IS_SYS" jdbcType="VARCHAR" property="isSys"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId"/>
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime"/>
+        <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, ROLE_NAME, ROLE_DESC, ROLE_TYPE, DOMAIN, IS_SYS, STATUS, UPDATE_USER_ID, CREATE_USER_ID, UPDATE_DATETIME, 
+        CREATE_DATETIME
+    </sql>
+
+    <insert id="create" parameterType="org.cuber.sso.dto.RoleEntity">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select 'R'||lpad(nextval('SEQ_ROLE_ID')||'',8,'0')
+        </selectKey>
+        insert into T_ROLE (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        #{id, jdbcType = VARCHAR}, #{roleName, jdbcType = VARCHAR}, #{roleDesc, jdbcType = VARCHAR},
+        #{roleType, jdbcType = VARCHAR},#{domain, jdbcType = VARCHAR}, #{isSys, jdbcType = VARCHAR},
+        #{status, jdbcType = VARCHAR},#{updateUserId, jdbcType = VARCHAR},#{createUserId, jdbcType = VARCHAR},
+        current_timestamp, current_timestamp
+        )
+    </insert>
+
+    <select id="retrieveById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_ROLE
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </select>
+
+    <select id="retrievePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_ROLE
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="roleName != null">
+                and ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+            </if>
+            <if test="roleDesc != null">
+                and ROLE_DESC = #{roleDesc,jdbcType=VARCHAR}
+            </if>
+            <if test="roleType != null">
+                and ROLE_TYPE = #{roleType,jdbcType=VARCHAR}
+            </if>
+            <if test="domain != null">
+                and DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="isSys != null">
+                and IS_SYS = #{isSys,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.RoleEntity">
+        update T_ROLE
+        <set>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null">
+                ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDesc != null">
+                ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="roleType != null">
+                ROLE_TYPE = #{roleType,jdbcType=VARCHAR},
+            </if>
+            <if test="domain != null">
+                DOMAIN = #{domain,jdbcType=VARCHAR},
+            </if>
+            <if test="isSys != null">
+                IS_SYS = #{isSys,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="org.cuber.sso.dto.RoleEntity">
+        update T_ROLE
+        <set>
+            ID = #{id,jdbcType=VARCHAR},
+            ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+            ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+            ROLE_TYPE = #{roleType,jdbcType=VARCHAR},
+            DOMAIN = #{domain,jdbcType=VARCHAR},
+            IS_SYS = #{isSys,jdbcType=VARCHAR},
+            STATUS = #{status,jdbcType=VARCHAR},
+            UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <select id="retrieveAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_ROLE
+    </select>
+
+    <delete id="deleteById">
+        delete from T_ROLE
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </delete>
+
+    <select id="retrieveByUserId" resultMap="BaseResultMap">
+          select
+            r.*
+          from tr_user_role ur, t_role r
+          where
+            ur.connect_type='user'
+          and
+            ur.role_id = r.id
+          and
+            ur.sbj_user_id = #{userId,jdbcType=VARCHAR}
+          and
+            r.status = '1'
+      union
+          select
+            r.*
+          from
+            tr_user_group ug, tr_user_role ur, t_role r
+          where
+            ug.group_id=ur.sbj_user_id
+          and
+            ur.connect_type='group'
+          and
+            ur.role_id = r.id
+          and
+            ug.user_id = #{userId,jdbcType=VARCHAR}
+          and
+           r.status = '1'
+    </select>
+</mapper>

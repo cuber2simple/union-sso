@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://code.alibabatech.com/schema/dubbo
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--基础服务 start-->
+    <dubbo:reference id="ipFacade" interface="org.cuber.basic.facade.rmi.IpFacade"
+                     version="${dubbo.basic.version}" check="false" filter="loggerFilter"/>
+
+    <dubbo:reference id="dictionaryBridge" interface="org.cuber.basic.facade.bridge.DictionaryBridge"
+                     version="${dubbo.basic.version}" check="false" filter="loggerFilter"/>
+
+    <dubbo:reference id="countryBridge" interface="org.cuber.basic.facade.bridge.CountryBridge"
+                     version="${dubbo.basic.version}" check="false" filter="loggerFilter"/>
+
+    <dubbo:reference id="currencyBridge" interface="org.cuber.basic.facade.bridge.CurrencyBridge"
+                     version="${dubbo.basic.version}" check="false" filter="loggerFilter"/>
+
+    <dubbo:reference id="bizTableDefBridge" interface="org.cuber.basic.facade.bridge.BizTableDefBridge"
+                     version="${dubbo.basic.version}" check="false" filter="loggerFilter"/>
+
+    <dubbo:reference id="appDefBridge" interface="org.cuber.basic.facade.bridge.AppDefBridge"
+                     version="${dubbo.basic.version}" check="false" filter="loggerFilter"/>
+
+    <dubbo:reference id="cacheDefBridge" interface="org.cuber.basic.facade.bridge.CacheDefBridge"
+                     version="${dubbo.basic.version}" check="false" filter="loggerFilter"/>
+    <!--基础服务 end-->
+
+</beans>

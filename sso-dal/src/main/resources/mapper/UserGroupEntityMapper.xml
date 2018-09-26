@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cuber.sso.mapper.UserGroupEntityMapper">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.UserGroupEntity">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="GROUP_NAME" jdbcType="VARCHAR" property="groupName"/>
+        <result column="GROUP_DESC" jdbcType="VARCHAR" property="groupDesc"/>
+        <result column="GROUP_TYPE" jdbcType="VARCHAR" property="groupType"/>
+        <result column="DOMAIN" jdbcType="VARCHAR" property="domain"/>
+        <result column="IS_SYS" jdbcType="VARCHAR" property="isSys"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId"/>
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime"/>
+        <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, GROUP_NAME, GROUP_DESC, GROUP_TYPE, DOMAIN, IS_SYS, STATUS, UPDATE_USER_ID, CREATE_USER_ID, UPDATE_DATETIME, 
+        CREATE_DATETIME
+    </sql>
+
+    <insert id="create" parameterType="org.cuber.sso.dto.UserGroupEntity">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select 'G'||lpad(nextval('SEQ_USER_GROUP_ID')||'',8,'0')
+        </selectKey>
+        insert into T_USER_GROUP (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        #{id, jdbcType = VARCHAR}, #{groupName, jdbcType = VARCHAR}, #{groupDesc, jdbcType = VARCHAR},
+        #{groupType, jdbcType = VARCHAR}, #{domain, jdbcType = VARCHAR}, #{isSys, jdbcType = VARCHAR},
+        #{status, jdbcType = VARCHAR},#{updateUserId, jdbcType = VARCHAR}, #{createUserId, jdbcType = VARCHAR},
+        current_timestamp, current_timestamp
+        )
+    </insert>
+
+    <select id="retrieveById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_USER_GROUP
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </select>
+
+    <select id="retrievePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_USER_GROUP
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="groupName != null">
+                and GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+            </if>
+            <if test="groupDesc != null">
+                and GROUP_DESC = #{groupDesc,jdbcType=VARCHAR}
+            </if>
+            <if test="groupType != null">
+                and GROUP_TYPE = #{groupType,jdbcType=VARCHAR}
+            </if>
+            <if test="domain != null">
+                and DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="isSys != null">
+                and IS_SYS = #{isSys,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.UserGroupEntity">
+        update T_USER_GROUP
+        <set>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null">
+                GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupDesc != null">
+                GROUP_DESC = #{groupDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="groupType != null">
+                GROUP_TYPE = #{groupType,jdbcType=VARCHAR},
+            </if>
+            <if test="domain != null">
+                DOMAIN = #{domain,jdbcType=VARCHAR},
+            </if>
+            <if test="isSys != null">
+                IS_SYS = #{isSys,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="org.cuber.sso.dto.UserGroupEntity">
+        update T_USER_GROUP
+        <set>
+            ID = #{id,jdbcType=VARCHAR},
+            GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+            GROUP_DESC = #{groupDesc,jdbcType=VARCHAR},
+            GROUP_TYPE = #{groupType,jdbcType=VARCHAR},
+            DOMAIN = #{domain,jdbcType=VARCHAR},
+            IS_SYS = #{isSys,jdbcType=VARCHAR},
+            STATUS = #{status,jdbcType=VARCHAR},
+            UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <select id="retrieveAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_USER_GROUP
+    </select>
+
+    <delete id="deleteById">
+        delete from T_USER_GROUP
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </delete>
+
+    <select id="retrieveByUserId" resultMap="BaseResultMap">
+        select
+          ur.*
+        from T_USER_GROUP ur, TR_USER_GROUP tur
+        where
+          ur.ID = tur.GROUP_ID
+        and
+          tur.USER_ID = #{userId,jdbcType=VARCHAR}
+        and
+          ur.status = '1'
+    </select>
+</mapper>

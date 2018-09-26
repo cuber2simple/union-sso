@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cuber.sso.mapper.UserEntityMapper">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.UserEntity">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+        <result column="NICK_NAME" jdbcType="VARCHAR" property="nickName"/>
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="MOBILE" jdbcType="VARCHAR" property="mobile"/>
+        <result column="SEX" jdbcType="VARCHAR" property="sex"/>
+        <result column="AVATAR" jdbcType="VARCHAR" property="avatar"/>
+        <result column="WX_OPEN_ID" jdbcType="VARCHAR" property="wxOpenId"/>
+        <result column="DING_OPEN_ID" jdbcType="VARCHAR" property="dingOpenId"/>
+        <result column="DOMAIN" jdbcType="VARCHAR" property="domain"/>
+        <result column="IS_SYS" jdbcType="VARCHAR" property="isSys"/>
+        <result column="LAST_LOGIN_ID" jdbcType="VARCHAR" property="lastLoginId"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId"/>
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="EXPIRE_DATETIME" jdbcType="TIMESTAMP" property="expireDatetime"/>
+        <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime"/>
+        <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, USER_NAME, NICK_NAME, PASSWORD, EMAIL, MOBILE, SEX, AVATAR, WX_OPEN_ID, DING_OPEN_ID, DOMAIN, 
+        IS_SYS, LAST_LOGIN_ID, STATUS, UPDATE_USER_ID, CREATE_USER_ID, EXPIRE_DATETIME, UPDATE_DATETIME,
+        CREATE_DATETIME
+    </sql>
+
+    <insert id="create" parameterType="org.cuber.sso.dto.UserEntity">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select 'U'||lpad(nextval('SEQ_USER_ID')||'',16,'0')
+        </selectKey>
+        insert into T_USER (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        #{id, jdbcType = VARCHAR}, #{userName, jdbcType = VARCHAR}, #{nickName, jdbcType = VARCHAR},
+        #{password, jdbcType = VARCHAR}, #{email, jdbcType = VARCHAR}, #{mobile, jdbcType = VARCHAR},
+        #{sex, jdbcType = VARCHAR}, #{avatar, jdbcType = VARCHAR}, #{wxOpenId, jdbcType = VARCHAR},
+        #{dingOpenId, jdbcType = VARCHAR}, #{domain, jdbcType = VARCHAR}, #{isSys, jdbcType = VARCHAR},
+        #{lastLoginId, jdbcType = VARCHAR}, #{status, jdbcType = VARCHAR}, #{updateUserId, jdbcType = VARCHAR},
+        #{createUserId, jdbcType = VARCHAR}, current_timestamp, current_timestamp, current_timestamp
+        )
+    </insert>
+
+    <select id="retrieveById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_USER
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </select>
+
+    <select id="retrievePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_USER
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null">
+                and USER_NAME = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="nickName != null">
+                and NICK_NAME = #{nickName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null">
+                and PASSWORD = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null">
+                and EMAIL = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="mobile != null">
+                and MOBILE = #{mobile,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null">
+                and SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="avatar != null">
+                and AVATAR = #{avatar,jdbcType=VARCHAR}
+            </if>
+            <if test="wxOpenId != null">
+                and WX_OPEN_ID = #{wxOpenId,jdbcType=VARCHAR}
+            </if>
+            <if test="dingOpenId != null">
+                and DING_OPEN_ID = #{dingOpenId,jdbcType=VARCHAR}
+            </if>
+            <if test="domain != null">
+                and DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="isSys != null">
+                and IS_SYS = #{isSys,jdbcType=VARCHAR}
+            </if>
+            <if test="lastLoginId != null">
+                and LAST_LOGIN_ID = #{lastLoginId,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="expireDatetime != null">
+                and EXPIRE_DATETIME = #{expireDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.UserEntity">
+        update T_USER
+        <set>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                NICK_NAME = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                PASSWORD = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                MOBILE = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                SEX = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null">
+                AVATAR = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="wxOpenId != null">
+                WX_OPEN_ID = #{wxOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="dingOpenId != null">
+                DING_OPEN_ID = #{dingOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="domain != null">
+                DOMAIN = #{domain,jdbcType=VARCHAR},
+            </if>
+            <if test="isSys != null">
+                IS_SYS = #{isSys,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginId != null">
+                LAST_LOGIN_ID = #{lastLoginId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            EXPIRE_DATETIME = current_timestamp,
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="org.cuber.sso.dto.UserEntity">
+        update T_USER
+        <set>
+            ID = #{id,jdbcType=VARCHAR},
+            USER_NAME = #{userName,jdbcType=VARCHAR},
+            NICK_NAME = #{nickName,jdbcType=VARCHAR},
+            PASSWORD = #{password,jdbcType=VARCHAR},
+            EMAIL = #{email,jdbcType=VARCHAR},
+            MOBILE = #{mobile,jdbcType=VARCHAR},
+            SEX = #{sex,jdbcType=VARCHAR},
+            AVATAR = #{avatar,jdbcType=VARCHAR},
+            WX_OPEN_ID = #{wxOpenId,jdbcType=VARCHAR},
+            DING_OPEN_ID = #{dingOpenId,jdbcType=VARCHAR},
+            DOMAIN = #{domain,jdbcType=VARCHAR},
+            IS_SYS = #{isSys,jdbcType=VARCHAR},
+            LAST_LOGIN_ID = #{lastLoginId,jdbcType=VARCHAR},
+            STATUS = #{status,jdbcType=VARCHAR},
+            UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            EXPIRE_DATETIME = current_timestamp,
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <select id="retrieveAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_USER
+    </select>
+
+    <delete id="deleteById">
+        delete from T_USER
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </delete>
+
+    <select id="retrieveByUnique" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_USER
+        <where>
+            <if test="userName != null and domain != null">
+                AND  USER_NAME = #{userName,jdbcType=VARCHAR} AND DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and domain != null">
+                AND  EMAIL = #{email,jdbcType=VARCHAR} AND DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="mobile != null and domain != null">
+                AND  MOBILE = #{mobile,jdbcType=VARCHAR} AND DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="dingOpenId != null and domain != null">
+                AND  DING_OPEN_ID = #{dingOpenId,jdbcType=VARCHAR} AND DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="wxOpenId != null and domain != null">
+                AND  WX_OPEN_ID = #{wxOpenId,jdbcType=VARCHAR} AND DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="domain == null">
+                AND    1 != 1
+            </if>
+            and status = '1'
+        </where>
+    </select>
+</mapper>

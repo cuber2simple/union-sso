@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cuber.sso.mapper.ResourceMapper">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.Resource">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="RESOURCE_NAME" jdbcType="VARCHAR" property="resourceName"/>
+        <result column="RESOURCE_DESC" jdbcType="VARCHAR" property="resourceDesc"/>
+        <result column="RESOURCE_TYPE" jdbcType="VARCHAR" property="resourceType"/>
+        <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId"/>
+        <result column="RESOURCE_URL" jdbcType="VARCHAR" property="resourceUrl"/>
+        <result column="RESOURCE_ICON" jdbcType="VARCHAR" property="resourceIcon"/>
+        <result column="RESOURCE_ZH_NAME" jdbcType="VARCHAR" property="resourceZhName"/>
+        <result column="I18N_KEY" jdbcType="VARCHAR" property="i18nKey"/>
+        <result column="TREE_SORT" jdbcType="SMALLINT" property="treeSort"/>
+        <result column="TREE_LEAF" jdbcType="VARCHAR" property="treeLeaf"/>
+        <result column="TREE_LEVEL" jdbcType="SMALLINT" property="treeLevel"/>
+        <result column="DOMAIN" jdbcType="VARCHAR" property="domain"/>
+        <result column="IS_SYS" jdbcType="VARCHAR" property="isSys"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId"/>
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime"/>
+        <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, RESOURCE_NAME, RESOURCE_DESC, RESOURCE_TYPE, PARENT_ID, RESOURCE_URL, RESOURCE_ICON, RESOURCE_ZH_NAME, 
+        I18N_KEY, TREE_SORT, TREE_LEAF, TREE_LEVEL, DOMAIN, IS_SYS, STATUS, UPDATE_USER_ID, CREATE_USER_ID,
+        UPDATE_DATETIME, CREATE_DATETIME
+    </sql>
+
+    <insert id="create" parameterType="org.cuber.sso.dto.Resource">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select 'RS'||lpad(nextval('SEQ_RESOURCE_ID')||'',8,'0')
+        </selectKey>
+        insert into T_RESOURCE (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        #{id, jdbcType = VARCHAR}, #{resourceName, jdbcType = VARCHAR}, #{resourceDesc, jdbcType = VARCHAR},
+        #{resourceType, jdbcType = VARCHAR}, #{parentId, jdbcType = VARCHAR}, #{resourceUrl, jdbcType = VARCHAR},
+        #{resourceIcon, jdbcType = VARCHAR}, #{resourceZhName, jdbcType = VARCHAR}, #{i18nKey, jdbcType = VARCHAR},
+        #{treeSort, jdbcType = SMALLINT}, #{treeLeaf, jdbcType = VARCHAR}, #{treeLevel, jdbcType = SMALLINT},
+        #{domain, jdbcType = VARCHAR}, #{isSys, jdbcType = VARCHAR}, #{status, jdbcType = VARCHAR},
+        #{updateUserId, jdbcType = VARCHAR},#{createUserId, jdbcType = VARCHAR}, current_timestamp, current_timestamp
+        )
+    </insert>
+
+    <select id="retrieveById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_RESOURCE
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </select>
+
+    <select id="retrievePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_RESOURCE
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="resourceName != null">
+                and RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR}
+            </if>
+            <if test="resourceDesc != null">
+                and RESOURCE_DESC = #{resourceDesc,jdbcType=VARCHAR}
+            </if>
+            <if test="resourceType != null">
+                and RESOURCE_TYPE = #{resourceType,jdbcType=VARCHAR}
+            </if>
+            <if test="parentId != null">
+                and PARENT_ID = #{parentId,jdbcType=VARCHAR}
+            </if>
+            <if test="resourceUrl != null">
+                and RESOURCE_URL = #{resourceUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="resourceIcon != null">
+                and RESOURCE_ICON = #{resourceIcon,jdbcType=VARCHAR}
+            </if>
+            <if test="resourceZhName != null">
+                and RESOURCE_ZH_NAME = #{resourceZhName,jdbcType=VARCHAR}
+            </if>
+            <if test="i18nKey != null">
+                and I18N_KEY = #{i18nKey,jdbcType=VARCHAR}
+            </if>
+            <if test="treeSort != null">
+                and TREE_SORT = #{treeSort,jdbcType=SMALLINT}
+            </if>
+            <if test="treeLeaf != null">
+                and TREE_LEAF = #{treeLeaf,jdbcType=VARCHAR}
+            </if>
+            <if test="treeLevel != null">
+                and TREE_LEVEL = #{treeLevel,jdbcType=SMALLINT}
+            </if>
+            <if test="domain != null">
+                and DOMAIN = #{domain,jdbcType=VARCHAR}
+            </if>
+            <if test="isSys != null">
+                and IS_SYS = #{isSys,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="updateUserId != null">
+                and UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="createUserId != null">
+                and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.Resource">
+        update T_RESOURCE
+        <set>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceName != null">
+                RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceDesc != null">
+                RESOURCE_DESC = #{resourceDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceType != null">
+                RESOURCE_TYPE = #{resourceType,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceUrl != null">
+                RESOURCE_URL = #{resourceUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceIcon != null">
+                RESOURCE_ICON = #{resourceIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="resourceZhName != null">
+                RESOURCE_ZH_NAME = #{resourceZhName,jdbcType=VARCHAR},
+            </if>
+            <if test="i18nKey != null">
+                I18N_KEY = #{i18nKey,jdbcType=VARCHAR},
+            </if>
+            <if test="treeSort != null">
+                TREE_SORT = #{treeSort,jdbcType=SMALLINT},
+            </if>
+            <if test="treeLeaf != null">
+                TREE_LEAF = #{treeLeaf,jdbcType=VARCHAR},
+            </if>
+            <if test="treeLevel != null">
+                TREE_LEVEL = #{treeLevel,jdbcType=SMALLINT},
+            </if>
+            <if test="domain != null">
+                DOMAIN = #{domain,jdbcType=VARCHAR},
+            </if>
+            <if test="isSys != null">
+                IS_SYS = #{isSys,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="org.cuber.sso.dto.Resource">
+        update T_RESOURCE
+        <set>
+            ID = #{id,jdbcType=VARCHAR},
+            RESOURCE_NAME = #{resourceName,jdbcType=VARCHAR},
+            RESOURCE_DESC = #{resourceDesc,jdbcType=VARCHAR},
+            RESOURCE_TYPE = #{resourceType,jdbcType=VARCHAR},
+            PARENT_ID = #{parentId,jdbcType=VARCHAR},
+            RESOURCE_URL = #{resourceUrl,jdbcType=VARCHAR},
+            RESOURCE_ICON = #{resourceIcon,jdbcType=VARCHAR},
+            RESOURCE_ZH_NAME = #{resourceZhName,jdbcType=VARCHAR},
+            I18N_KEY = #{i18nKey,jdbcType=VARCHAR},
+            TREE_SORT = #{treeSort,jdbcType=SMALLINT},
+            TREE_LEAF = #{treeLeaf,jdbcType=VARCHAR},
+            TREE_LEVEL = #{treeLevel,jdbcType=SMALLINT},
+            DOMAIN = #{domain,jdbcType=VARCHAR},
+            IS_SYS = #{isSys,jdbcType=VARCHAR},
+            STATUS = #{status,jdbcType=VARCHAR},
+            UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+            CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <select id="retrieveAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_RESOURCE
+    </select>
+
+    <delete id="deleteById">
+        delete from T_RESOURCE
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </delete>
+</mapper>

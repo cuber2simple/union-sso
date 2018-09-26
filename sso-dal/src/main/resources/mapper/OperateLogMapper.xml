@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cuber.sso.mapper.OperateLogMapper">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.OperateLog">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="LOGIN_ID" jdbcType="VARCHAR" property="loginId"/>
+        <result column="TRACE_ID" jdbcType="VARCHAR" property="traceId"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="APP" jdbcType="VARCHAR" property="app"/>
+        <result column="HOST_NAME" jdbcType="VARCHAR" property="hostName"/>
+        <result column="ACTION" jdbcType="VARCHAR" property="action"/>
+        <result column="URL" jdbcType="VARCHAR" property="url"/>
+        <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+        <result column="OPERATE_RESULT" jdbcType="VARCHAR" property="operateResult"/>
+        <result column="COMPLETE_DATETIME" jdbcType="TIMESTAMP" property="completeDatetime"/>
+        <result column="UPDATE_DATETIME" jdbcType="TIMESTAMP" property="updateDatetime"/>
+        <result column="CREATE_DATETIME" jdbcType="TIMESTAMP" property="createDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, LOGIN_ID, TRACE_ID, USER_ID, APP, HOST_NAME, ACTION, URL, CONTENT, OPERATE_RESULT, COMPLETE_DATETIME, 
+        UPDATE_DATETIME, CREATE_DATETIME
+    </sql>
+
+    <insert id="create" parameterType="org.cuber.sso.dto.OperateLog">
+        insert into T_OPERATE_LOG (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        #{id, jdbcType = VARCHAR}, #{loginId, jdbcType = VARCHAR}, #{traceId, jdbcType = VARCHAR},
+        #{userId, jdbcType = VARCHAR}, #{app, jdbcType = VARCHAR}, #{hostName, jdbcType = VARCHAR},
+        #{action, jdbcType = VARCHAR}, #{url, jdbcType = VARCHAR},#{content, jdbcType = VARCHAR},
+        #{operateResult, jdbcType = VARCHAR}, current_timestamp, current_timestamp, current_timestamp
+        )
+    </insert>
+
+    <select id="retrieveById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_OPERATE_LOG
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </select>
+
+    <select id="retrievePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_OPERATE_LOG
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="loginId != null">
+                and LOGIN_ID = #{loginId,jdbcType=VARCHAR}
+            </if>
+            <if test="traceId != null">
+                and TRACE_ID = #{traceId,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and USER_ID = #{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="app != null">
+                and APP = #{app,jdbcType=VARCHAR}
+            </if>
+            <if test="hostName != null">
+                and HOST_NAME = #{hostName,jdbcType=VARCHAR}
+            </if>
+            <if test="action != null">
+                and ACTION = #{action,jdbcType=VARCHAR}
+            </if>
+            <if test="url != null">
+                and URL = #{url,jdbcType=VARCHAR}
+            </if>
+            <if test="content != null">
+                and CONTENT = #{content,jdbcType=VARCHAR}
+            </if>
+            <if test="operateResult != null">
+                and OPERATE_RESULT = #{operateResult,jdbcType=VARCHAR}
+            </if>
+            <if test="completeDatetime != null">
+                and COMPLETE_DATETIME = #{completeDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateDatetime != null">
+                and UPDATE_DATETIME = #{updateDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createDatetime != null">
+                and CREATE_DATETIME = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.OperateLog">
+        update T_OPERATE_LOG
+        <set>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="loginId != null">
+                LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+            </if>
+            <if test="traceId != null">
+                TRACE_ID = #{traceId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="app != null">
+                APP = #{app,jdbcType=VARCHAR},
+            </if>
+            <if test="hostName != null">
+                HOST_NAME = #{hostName,jdbcType=VARCHAR},
+            </if>
+            <if test="action != null">
+                ACTION = #{action,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                URL = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="operateResult != null">
+                OPERATE_RESULT = #{operateResult,jdbcType=VARCHAR},
+            </if>
+            COMPLETE_DATETIME = current_timestamp,
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="org.cuber.sso.dto.OperateLog">
+        update T_OPERATE_LOG
+        <set>
+            ID = #{id,jdbcType=VARCHAR},
+            LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+            TRACE_ID = #{traceId,jdbcType=VARCHAR},
+            USER_ID = #{userId,jdbcType=VARCHAR},
+            APP = #{app,jdbcType=VARCHAR},
+            HOST_NAME = #{hostName,jdbcType=VARCHAR},
+            ACTION = #{action,jdbcType=VARCHAR},
+            URL = #{url,jdbcType=VARCHAR},
+            CONTENT = #{content,jdbcType=VARCHAR},
+            OPERATE_RESULT = #{operateResult,jdbcType=VARCHAR},
+            COMPLETE_DATETIME = current_timestamp,
+            UPDATE_DATETIME = current_timestamp,
+            CREATE_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <select id="retrieveAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from T_OPERATE_LOG
+    </select>
+
+    <delete id="deleteById">
+        delete from T_OPERATE_LOG
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </delete>
+</mapper>

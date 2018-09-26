@@ -1,0 +1,146 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::commonHeader(~{::title})}">
+    <title>统一登陆</title>
+</head>
+<body style="background-color: #2E294E">
+<div class="ui container" style="padding-top:10%">
+    <div class="ui grid center aligned">
+        <div class="row">
+            <div class="sixteen wide tablet six wide computer column">
+                <div class="ui segments ">
+                    <div class="ui segment">
+                        <h5 class="ui header">
+                            <i class="huge icons">
+                                <i class="green world icon"></i>
+                            </i>
+                        </h5>
+                    </div>
+                    <div class="ui segment">
+                        <div class="ui top attached tabular menu">
+                            <i class="item active" data-tab="normal_login">普通登陆</i>
+                            <i class="item" data-tab="tablet_login">手机登陆</i>
+                            <i class="item" data-tab="ding_login">钉钉登陆</i>
+                        </div>
+                        <form class="ui tab attached form segment left aligned active form2"
+                              th:action="@{/login}"
+                              data-tab="normal_login" method="post">
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>用户名</label>
+                                    <input placeholder="userName" type="text" id="userName"/>
+                                    <input type="hidden" name="username" id="enc_userName"/>
+                                    <input type="hidden" id="type" th:value="${type?:'empty'}"/>
+                                    <input type="hidden" id="msg" th:value="${_login_page_msg?:''}"/>
+                                </div>
+                                <div class="field">
+                                    <label>密码</label>
+                                    <input id="password" type="password"/>
+                                    <input type="hidden" name="password" id="enc_password" th:value="password"/>
+                                    <input type="hidden" id="_public_key" th:value="${_public_key}"/>
+                                </div>
+                            </div>
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>验证码</label>
+                                    <input name="verify_code" type="text">
+                                </div>
+                                <div class="field">
+                                    <a th:src="@{/captcha}" id="cap"></a>
+                                    <a th:src="@{/verifyCaptcha}" id="verify"></a>
+                                    <img class="ui small bordered image bottom aligned" th:src="@{/captcha}"
+                                         onclick="this.src=$('#cap').attr('src')+'?d=new Date()*1'"/>
+                                </div>
+                            </div>
+                            <div class="ui blue submit button">Submit</div>
+                        </form>
+                        <div class="ui tab attached segment center aligned" data-tab="tablet_login">
+                            手机登录
+                        </div>
+
+                        <div class="ui tab attached segment center aligned" data-tab="ding_login">
+                            钉钉登陆
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{|${env}/js/jquery-2.1.4.min.js|}"></script>
+<script th:src="@{|${env}/js/jsencrypt.min.js|}" charset="utf-8"></script>
+<script th:src="@{|${env}/dist/semantic.min.js|}"></script>
+<script th:src="@{|${env}/plugins/cookie/js.cookie.js|}"></script>
+<script th:src="@{|${env}/plugins/adress/jquery.address.js|}"></script>
+<script th:src="@{|${env}/plugins/nicescrool/jquery.nicescroll.min.js|}"></script>
+<script data-pace-options='{ "ajax": false }' th:src="@{|${env}/plugins/pacejs/pace.js|}"></script>
+<script th:src="@{|${env}/plugins/lobibox/js/notifications.js|}"></script>
+<script th:src="@{|${env}/js/main.js|}"></script>
+<script>
+
+    if ('empty' != $("#type").val()) {
+        var data_type = 'error';
+        if ('LOGOUT' == $("#type").val()) {
+            data_type = 'success';
+        }
+        Lobibox.notify(data_type, {
+            size: 'normal',
+            rounded: false,
+            delayIndicator: true,
+            msg: $("#msg").val(),
+            title: data_type
+        });
+    }
+
+    $.fn.form.settings.rules.codeIsVerify = function (value) {
+        var flag = false;
+        $.ajax({
+            async: false,
+            url: $("#verify").attr('src') + "?verify_code=" + value,
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                flag = data.success;
+            }
+        });
+        return flag;
+    }
+
+    function _encrypt() {
+        var encrypt = new JSEncrypt();
+        var json = {
+            'identifier': $('#userName').val(),
+            'pin': $('#password').val(),
+            'domain': 'x',
+            'loginType': 'password'
+        };
+        encrypt.setPublicKey($("#_public_key").val());
+        var encryptStr = encrypt.encrypt(JSON.stringify(json));
+        $('#enc_userName').val(encryptStr);
+    }
+
+    $(".menu .item").tab();
+    $('.ui.form2').form({
+        on: 'blur',
+        fields: {
+            username: {
+                rules: [{
+                    type: 'empty'
+                }]
+            },
+            password: {
+                rules: [{
+                    type: 'empty'
+                }]
+            },
+            verify_code: {
+                rules: [{
+                    type: 'codeIsVerify'
+                }]
+            }
+        },
+        <!--校验完毕的时间-->
+        onValid: _encrypt
+    });
+</script>
+</body>
+</html>

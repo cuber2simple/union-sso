@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cuber.sso.mapper.TrUserGroupMapper">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.TrUserGroup">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="GROUP_ID" jdbcType="VARCHAR" property="groupId"/>
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId"/>
+        <result column="CONNECT_DATETIME" jdbcType="TIMESTAMP" property="connectDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, GROUP_ID, USER_ID, CONNECT_DATETIME
+    </sql>
+
+    <insert id="create" parameterType="org.cuber.sso.dto.TrUserGroup">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select nextval('SEQ_TR_USER_GROUP_ID')
+        </selectKey>
+        insert into TR_USER_GROUP (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        #{id, jdbcType = VARCHAR}, #{groupId, jdbcType = VARCHAR}, #{userId, jdbcType = VARCHAR},
+        current_timestamp
+        )
+    </insert>
+
+    <select id="retrieveById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TR_USER_GROUP
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </select>
+
+    <select id="retrievePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TR_USER_GROUP
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="groupId != null">
+                and GROUP_ID = #{groupId,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and USER_ID = #{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="connectDatetime != null">
+                and CONNECT_DATETIME = #{connectDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.TrUserGroup">
+        update TR_USER_GROUP
+        <set>
+            <if test="id != null">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                GROUP_ID = #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=VARCHAR},
+            </if>
+            CONNECT_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="org.cuber.sso.dto.TrUserGroup">
+        update TR_USER_GROUP
+        <set>
+            ID = #{id,jdbcType=VARCHAR},
+            GROUP_ID = #{groupId,jdbcType=VARCHAR},
+            USER_ID = #{userId,jdbcType=VARCHAR},
+            CONNECT_DATETIME = current_timestamp,
+        </set>
+        <where>
+            id = #{id, jdbcType = VARCHAR}
+        </where>
+    </update>
+
+    <select id="retrieveAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from TR_USER_GROUP
+    </select>
+
+    <delete id="deleteById">
+        delete from TR_USER_GROUP
+        where
+        id = #{id, jdbcType = VARCHAR}
+    </delete>
+</mapper>
