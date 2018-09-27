@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.cuber.sso.mapper.OperateLogMapper">
-    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.OperateLog">
+    <resultMap id="BaseResultMap" type="org.cuber.sso.dto.OperatorLog">
         <id column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="LOGIN_ID" jdbcType="VARCHAR" property="loginId"/>
         <result column="TRACE_ID" jdbcType="VARCHAR" property="traceId"/>
@@ -22,7 +22,7 @@
         UPDATE_DATETIME, CREATE_DATETIME
     </sql>
 
-    <insert id="create" parameterType="org.cuber.sso.dto.OperateLog">
+    <insert id="create" parameterType="org.cuber.sso.dto.OperatorLog">
         insert into T_OPERATE_LOG (
         <include refid="Base_Column_List"/>
         )
@@ -89,7 +89,7 @@
         </where>
     </select>
 
-    <update id="updateDynamic" parameterType="org.cuber.sso.dto.OperateLog">
+    <update id="updateDynamic" parameterType="org.cuber.sso.dto.OperatorLog">
         update T_OPERATE_LOG
         <set>
             <if test="id != null">
@@ -131,7 +131,7 @@
         </where>
     </update>
 
-    <update id="updateById" parameterType="org.cuber.sso.dto.OperateLog">
+    <update id="updateById" parameterType="org.cuber.sso.dto.OperatorLog">
         update T_OPERATE_LOG
         <set>
             ID = #{id,jdbcType=VARCHAR},

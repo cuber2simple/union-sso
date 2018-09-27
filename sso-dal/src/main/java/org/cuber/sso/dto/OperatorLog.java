@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * tableName   t_operate_log
  * remark      操作日志表
  */
-public class OperateLog extends StubBizDTO {
+public class OperatorLog extends StubBizDTO {
 
 
     /**

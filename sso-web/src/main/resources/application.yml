@@ -25,5 +25,6 @@ server:
   servlet:
     context-path: /sso
 dubbo:
+  port: 20000
   basic:
     version: 1.0
