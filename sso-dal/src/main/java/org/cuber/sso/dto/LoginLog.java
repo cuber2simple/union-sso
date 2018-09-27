@@ -26,10 +26,10 @@ public class LoginLog extends StubBizDTO {
 
 
     /**
-     * column_name    user_name
+     * column_name    identifier
      * remark
      */
-    private String userName;
+    private String identifier;
 
 
     /**
@@ -108,15 +108,13 @@ public class LoginLog extends StubBizDTO {
     }
 
 
-    public String getUserName() {
-        return userName;
+    public String getIdentifier() {
+        return identifier;
     }
 
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
-
 
     public String getUserId() {
         return userId;

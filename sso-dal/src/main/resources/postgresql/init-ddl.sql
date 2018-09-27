@@ -57,7 +57,7 @@ CREATE TABLE t_login_log
 	id  					    VARCHAR(64) NOT NULL PRIMARY KEY,
 	trace_id				  VARCHAR(64),
 	login_type				VARCHAR(256),
-	user_name         VARCHAR(256),
+	identifier        VARCHAR(256),
 	user_id					  VARCHAR(64),
 	device					  VARCHAR(256),
 	login_ip				  VARCHAR(256),
@@ -74,6 +74,7 @@ comment on table  t_login_log 					          is '登陆日志表';
 comment on column t_login_log.id 				          is '主键';
 comment on column t_login_log.trace_id 			      is '轨迹ID';
 comment on column t_login_log.login_type 			    is '登陆类型 password/phone/email/wechat/ding';
+comment on column t_login_log.identifier 			    is '登陆身份识别';
 comment on column t_login_log.user_id 			      is '用户ID';
 comment on column t_login_log.device 				      is '设备类型';
 comment on column t_login_log.login_ip 		        is '登陆IP';
