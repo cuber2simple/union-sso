@@ -69,17 +69,9 @@ public class OperatorLog extends StubBizDTO {
 
     /**
      * column_name    operate_result
-     * remark         操作日志,1/2/9  成功/失败/异常
+     * remark         操作日志,success/fail/abnormal  成功/失败/异常
      */
     private String operateResult;
-
-
-    /**
-     * column_name    complete_datetime
-     * remark         完成时间
-     */
-    private LocalDateTime completeDatetime;
-
 
     /**
      * column_name    update_datetime
@@ -175,16 +167,6 @@ public class OperatorLog extends StubBizDTO {
 
     public void setOperateResult(String operateResult) {
         this.operateResult = operateResult == null ? null : operateResult.trim();
-    }
-
-
-    public LocalDateTime getCompleteDatetime() {
-        return completeDatetime;
-    }
-
-
-    public void setCompleteDatetime(LocalDateTime completeDatetime) {
-        this.completeDatetime = completeDatetime;
     }
 
 
